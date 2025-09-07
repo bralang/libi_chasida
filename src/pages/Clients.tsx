@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -89,6 +90,7 @@ const mockClients = [
 ];
 
 export default function Clients() {
+  const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredClients, setFilteredClients] = useState(mockClients);
 
@@ -127,10 +129,10 @@ export default function Clients() {
         <div>
           <h1 className="text-3xl font-bold flex items-center gap-2">
             <Users className="h-8 w-8" />
-            ניהול לקוחות
+            תיקי לקוחות
           </h1>
           <p className="text-muted-foreground mt-1">
-            ניהול פרטי לקוחות ומעקב אחר פעילותם
+            ניהול תיקי לקוחות ומעקב אחר פעילותם
           </p>
         </div>
         <Button variant="hero" className="flex items-center gap-2">
@@ -239,7 +241,11 @@ export default function Clients() {
               </TableHeader>
               <TableBody>
                 {filteredClients.map((client) => (
-                  <TableRow key={client.id} className="hover:bg-accent/50">
+                  <TableRow 
+                    key={client.id} 
+                    className="hover:bg-accent/50 cursor-pointer"
+                    onClick={() => navigate(`/clients/${client.id}`)}
+                  >
                     <TableCell className="font-medium">{client.name}</TableCell>
                     <TableCell>{client.contactPerson}</TableCell>
                     <TableCell>

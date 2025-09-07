@@ -8,6 +8,7 @@ import Layout from "@/components/Layout";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import Clients from "./pages/Clients";
+import ClientDetails from "./pages/ClientDetails";
 import Tasks from "./pages/Tasks";
 import NotFound from "./pages/NotFound";
 
@@ -33,6 +34,13 @@ const App = () => (
             <RequireAuth>
               <Layout>
                 <Clients />
+              </Layout>
+            </RequireAuth>
+          } />
+          <Route path="/clients/:id" element={
+            <RequireAuth>
+              <Layout>
+                <ClientDetails />
               </Layout>
             </RequireAuth>
           } />
