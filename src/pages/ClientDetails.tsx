@@ -43,6 +43,7 @@ const mockClientData = {
     id: 1,
     businessNumber: '514123456',
     name: 'חברת הטכנולוגיה בע"מ',
+    businessType: 'חברה',
     owners: ['יוסי כהן', 'שרה לוי'],
     field: 'פיתוח תוכנה',
     address: 'רחוב הרצל 25, תל אביב',
@@ -351,6 +352,15 @@ export default function ClientDetails() {
                   <div>
                     <label className="text-sm font-medium text-muted-foreground">מספר עוסק</label>
                     <p className="text-lg">{client.businessNumber}</p>
+                  </div>
+                  <div>
+                    <label className="text-sm font-medium text-muted-foreground">סוג עסק</label>
+                    <div className="flex items-center gap-2">
+                      <Building className="h-4 w-4 text-muted-foreground flex-shrink-0" />
+                      <Badge variant="outline" className="text-lg px-3 py-1 font-medium">
+                        {client.businessType}
+                      </Badge>
+                    </div>
                   </div>
                   <div>
                     <label className="text-sm font-medium text-muted-foreground">בעלי העסק</label>
