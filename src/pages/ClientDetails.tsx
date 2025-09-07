@@ -194,7 +194,7 @@ export default function ClientDetails() {
           <div>
             <h1 className="text-3xl font-bold flex items-center gap-2">
               <Building className="h-8 w-8" />
-              {client.name}
+              {client.name} - {client.owners[0]}
             </h1>
             <div className="flex items-center gap-4 mt-2">
               <span className="text-muted-foreground">מספר עוסק: {client.businessNumber}</span>
@@ -205,7 +205,7 @@ export default function ClientDetails() {
           </div>
         </div>
         <Button variant="hero">
-          <Settings className="h-4 w-4 mr-2" />
+          <Settings className="h-4 w-4 ml-2" />
           עריכת תיק
         </Button>
       </div>
@@ -265,21 +265,21 @@ export default function ClientDetails() {
                   <div>
                     <label className="text-sm font-medium text-muted-foreground">כתובת</label>
                     <div className="flex items-start gap-2">
-                      <MapPin className="h-4 w-4 mt-1 text-muted-foreground" />
+                      <MapPin className="h-4 w-4 mt-1 text-muted-foreground flex-shrink-0" />
                       <p className="text-lg">{client.address}</p>
                     </div>
                   </div>
                   <div>
                     <label className="text-sm font-medium text-muted-foreground">טלפון</label>
                     <div className="flex items-center gap-2">
-                      <Phone className="h-4 w-4 text-muted-foreground" />
+                      <Phone className="h-4 w-4 text-muted-foreground flex-shrink-0" />
                       <p className="text-lg">{client.phone}</p>
                     </div>
                   </div>
                   <div>
                     <label className="text-sm font-medium text-muted-foreground">דוא"ל</label>
                     <div className="flex items-center gap-2">
-                      <Mail className="h-4 w-4 text-muted-foreground" />
+                      <Mail className="h-4 w-4 text-muted-foreground flex-shrink-0" />
                       <p className="text-lg">{client.email}</p>
                     </div>
                   </div>
@@ -340,20 +340,20 @@ export default function ClientDetails() {
                       <TableRow key={contact.id}>
                         <TableCell className="font-medium">
                           <div className="flex items-center gap-2">
-                            <User className="h-4 w-4" />
+                            <User className="h-4 w-4 flex-shrink-0" />
                             {contact.name}
                           </div>
                         </TableCell>
                         <TableCell>{contact.gender}</TableCell>
                         <TableCell>
                           <div className="flex items-center gap-2">
-                            <Phone className="h-3 w-3" />
+                            <Phone className="h-3 w-3 flex-shrink-0" />
                             {contact.phone}
                           </div>
                         </TableCell>
                         <TableCell>
                           <div className="flex items-center gap-2">
-                            <Mail className="h-3 w-3" />
+                            <Mail className="h-3 w-3 flex-shrink-0" />
                             {contact.email}
                           </div>
                         </TableCell>
@@ -403,7 +403,7 @@ export default function ClientDetails() {
                         </TableCell>
                         <TableCell>
                           <div className="flex items-center gap-2">
-                            <Calendar className="h-3 w-3" />
+                            <Calendar className="h-3 w-3 flex-shrink-0" />
                             {new Date(task.dueDate).toLocaleDateString('he-IL')}
                           </div>
                         </TableCell>
@@ -445,7 +445,7 @@ export default function ClientDetails() {
                         </TableCell>
                         <TableCell>
                           <div className="flex items-center gap-2">
-                            <Calendar className="h-3 w-3" />
+                            <Calendar className="h-3 w-3 flex-shrink-0" />
                             {new Date(process.startDate).toLocaleDateString('he-IL')}
                           </div>
                         </TableCell>
@@ -483,7 +483,7 @@ export default function ClientDetails() {
                         <TableCell className="font-medium">{report.name}</TableCell>
                         <TableCell>
                           <div className="flex items-center gap-2">
-                            <Calendar className="h-3 w-3" />
+                            <Calendar className="h-3 w-3 flex-shrink-0" />
                             {new Date(report.startDate).toLocaleDateString('he-IL')}
                           </div>
                         </TableCell>
@@ -495,7 +495,7 @@ export default function ClientDetails() {
                         <TableCell>
                           {report.submissionDate ? (
                             <div className="flex items-center gap-2">
-                              <Calendar className="h-3 w-3" />
+                              <Calendar className="h-3 w-3 flex-shrink-0" />
                               {new Date(report.submissionDate).toLocaleDateString('he-IL')}
                             </div>
                           ) : (
@@ -505,7 +505,7 @@ export default function ClientDetails() {
                         <TableCell>
                           {report.file ? (
                             <Button variant="ghost" size="sm" className="flex items-center gap-2">
-                              <FileText className="h-3 w-3" />
+                              <FileText className="h-3 w-3 flex-shrink-0" />
                               {report.file}
                             </Button>
                           ) : (
