@@ -284,7 +284,7 @@ export default function ClientDetails() {
   };
 
   return (
-    <div className="container mx-auto p-6 space-y-6 animate-fade-in">
+    <div className="container mx-auto p-6 space-y-6 animate-fade-in" dir="rtl">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
@@ -310,41 +310,41 @@ export default function ClientDetails() {
           </div>
         </div>
         <Button variant="hero">
-          <Settings className="h-4 w-4 ml-2" />
+          <Settings className="h-4 w-4 mr-2" />
           עריכת תיק
         </Button>
       </div>
 
       {/* Tabs */}
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-        <TabsList className="grid w-full grid-cols-7">
-          <TabsTrigger value="general" className="flex items-center gap-2">
-            <Building className="h-4 w-4" />
-            מידע כללי
-          </TabsTrigger>
-          <TabsTrigger value="contacts" className="flex items-center gap-2">
-            <Users className="h-4 w-4" />
-            אנשי קשר
-          </TabsTrigger>
-          <TabsTrigger value="tasks" className="flex items-center gap-2">
-            <CheckSquare className="h-4 w-4" />
-            משימות
-          </TabsTrigger>
-          <TabsTrigger value="processes" className="flex items-center gap-2">
-            <Briefcase className="h-4 w-4" />
-            תהליכים
-          </TabsTrigger>
-          <TabsTrigger value="reports" className="flex items-center gap-2">
-            <FileText className="h-4 w-4" />
-            דוחות
+        <TabsList className="grid w-full grid-cols-7" dir="rtl">
+          <TabsTrigger value="emails" className="flex items-center gap-2">
+            <Inbox className="h-4 w-4" />
+            מיילים
           </TabsTrigger>
           <TabsTrigger value="calls" className="flex items-center gap-2">
             <PhoneCall className="h-4 w-4" />
             שיחות טלפון
           </TabsTrigger>
-          <TabsTrigger value="emails" className="flex items-center gap-2">
-            <Inbox className="h-4 w-4" />
-            מיילים
+          <TabsTrigger value="reports" className="flex items-center gap-2">
+            <FileText className="h-4 w-4" />
+            דוחות
+          </TabsTrigger>
+          <TabsTrigger value="processes" className="flex items-center gap-2">
+            <Briefcase className="h-4 w-4" />
+            תהליכים
+          </TabsTrigger>
+          <TabsTrigger value="tasks" className="flex items-center gap-2">
+            <CheckSquare className="h-4 w-4" />
+            משימות
+          </TabsTrigger>
+          <TabsTrigger value="contacts" className="flex items-center gap-2">
+            <Users className="h-4 w-4" />
+            אנשי קשר
+          </TabsTrigger>
+          <TabsTrigger value="general" className="flex items-center gap-2">
+            <Building className="h-4 w-4" />
+            מידע כללי
           </TabsTrigger>
         </TabsList>
 
