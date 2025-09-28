@@ -38,7 +38,8 @@ import {
   Plus,
   Send,
   X,
-  Minimize2
+  Minimize2,
+  Copy
 } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -283,6 +284,16 @@ export default function ClientDetails() {
     }
   };
 
+  const copyToClipboard = async (text: string, fieldName: string) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      // You can add a toast notification here if needed
+      console.log(`${fieldName} copied to clipboard: ${text}`);
+    } catch (err) {
+      console.error('Failed to copy: ', err);
+    }
+  };
+
   return (
     <div className="container mx-auto p-6 space-y-6 animate-fade-in" dir="rtl">
       {/* Header */}
@@ -302,7 +313,16 @@ export default function ClientDetails() {
               {client.name} - {client.owners[0]}
             </h1>
             <div className="flex items-center gap-4 mt-2">
-              <span className="text-muted-foreground">מספר עוסק: {client.businessNumber}</span>
+              <div className="flex items-center gap-2">
+                <span className="text-muted-foreground">מספר עוסק: {client.businessNumber}</span>
+                <button
+                  onClick={() => copyToClipboard(client.businessNumber, 'מספר עוסק')}
+                  className="text-muted-foreground hover:text-foreground transition-colors"
+                  title="העתק מספר עוסק"
+                >
+                  <Copy className="h-4 w-4" />
+                </button>
+              </div>
               <Badge variant={getStatusColor(client.status)}>
                 {getStatusText(client.status)}
               </Badge>
@@ -359,11 +379,29 @@ export default function ClientDetails() {
                 <div className="space-y-4">
                   <div>
                     <label className="text-sm font-medium text-muted-foreground">שם העסק</label>
-                    <p className="text-lg font-medium">{client.name}</p>
+                    <div className="flex items-center gap-2">
+                      <p className="text-lg font-medium">{client.name}</p>
+                      <button
+                        onClick={() => copyToClipboard(client.name, 'שם העסק')}
+                        className="text-muted-foreground hover:text-foreground transition-colors"
+                        title="העתק שם העסק"
+                      >
+                        <Copy className="h-4 w-4" />
+                      </button>
+                    </div>
                   </div>
                   <div>
                     <label className="text-sm font-medium text-muted-foreground">מספר עוסק</label>
-                    <p className="text-lg">{client.businessNumber}</p>
+                    <div className="flex items-center gap-2">
+                      <p className="text-lg">{client.businessNumber}</p>
+                      <button
+                        onClick={() => copyToClipboard(client.businessNumber, 'מספר עוסק')}
+                        className="text-muted-foreground hover:text-foreground transition-colors"
+                        title="העתק מספר עוסק"
+                      >
+                        <Copy className="h-4 w-4" />
+                      </button>
+                    </div>
                   </div>
                   <div>
                     <label className="text-sm font-medium text-muted-foreground">סוג עסק</label>
@@ -399,6 +437,13 @@ export default function ClientDetails() {
                     <div className="flex items-center gap-2">
                       <Phone className="h-4 w-4 text-muted-foreground flex-shrink-0" />
                       <p className="text-lg">{client.phone}</p>
+                      <button
+                        onClick={() => copyToClipboard(client.phone, 'טלפון')}
+                        className="text-muted-foreground hover:text-foreground transition-colors"
+                        title="העתק טלפון"
+                      >
+                        <Copy className="h-4 w-4" />
+                      </button>
                     </div>
                   </div>
                   <div>
@@ -406,6 +451,13 @@ export default function ClientDetails() {
                     <div className="flex items-center gap-2">
                       <Mail className="h-4 w-4 text-muted-foreground flex-shrink-0" />
                       <p className="text-lg">{client.email}</p>
+                      <button
+                        onClick={() => copyToClipboard(client.email, 'דוא"ל')}
+                        className="text-muted-foreground hover:text-foreground transition-colors"
+                        title="העתק דוא&quot;ל"
+                      >
+                        <Copy className="h-4 w-4" />
+                      </button>
                     </div>
                   </div>
                   <div>
