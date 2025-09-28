@@ -34,8 +34,14 @@ import {
   FileAudio,
   Paperclip,
   Star,
-  Circle
+  Circle,
+  Plus,
+  Send,
+  X,
+  Minimize2
 } from 'lucide-react';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
 
 // Mock data - בפרויקט אמיתי זה יגיע מ-API
 const mockClientData = {
@@ -220,6 +226,12 @@ export default function ClientDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('general');
+  const [isComposeOpen, setIsComposeOpen] = useState(false);
+  const [composeData, setComposeData] = useState({
+    to: '',
+    subject: '',
+    body: ''
+  });
   
   const client = mockClientData[Number(id)];
   
@@ -732,8 +744,16 @@ export default function ClientDetails() {
         {/* Emails Tab */}
         <TabsContent value="emails" className="space-y-6">
           <Card className="shadow-card">
-            <CardHeader>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
               <CardTitle>מיילים</CardTitle>
+              <Button 
+                onClick={() => setIsComposeOpen(true)}
+                className="flex items-center gap-2"
+                variant="default"
+              >
+                <Plus className="h-4 w-4" />
+                מייל חדש
+              </Button>
             </CardHeader>
             <CardContent>
               <div className="space-y-2">
@@ -792,6 +812,111 @@ export default function ClientDetails() {
           </Card>
         </TabsContent>
       </Tabs>
+
+      {/* Email Compose Side Panel */}
+      {isComposeOpen && (
+        <div className="fixed inset-0 z-50 flex">
+          {/* Backdrop */}
+          <div 
+            className="absolute inset-0 bg-black/20" 
+            onClick={() => setIsComposeOpen(false)}
+          />
+          
+          {/* Side Panel */}
+          <div className="ml-auto w-full max-w-2xl bg-background border-l shadow-2xl flex flex-col animate-slide-in-right">
+            {/* Header */}
+            <div className="flex items-center justify-between p-4 border-b bg-muted/30">
+              <h3 className="text-lg font-semibold">מייל חדש</h3>
+              <div className="flex items-center gap-2">
+                <Button 
+                  variant="ghost" 
+                  size="sm"
+                  onClick={() => setIsComposeOpen(false)}
+                >
+                  <Minimize2 className="h-4 w-4" />
+                </Button>
+                <Button 
+                  variant="ghost" 
+                  size="sm"
+                  onClick={() => setIsComposeOpen(false)}
+                >
+                  <X className="h-4 w-4" />
+                </Button>
+              </div>
+            </div>
+
+            {/* Compose Form */}
+            <div className="flex-1 flex flex-col p-4 space-y-4">
+              <div className="space-y-4">
+                <div>
+                  <label className="text-sm font-medium text-muted-foreground">אל:</label>
+                  <Input
+                    value={composeData.to}
+                    onChange={(e) => setComposeData(prev => ({ ...prev, to: e.target.value }))}
+                    placeholder="הכנס כתובת מייל..."
+                    className="mt-1"
+                    dir="ltr"
+                  />
+                </div>
+                
+                <div>
+                  <label className="text-sm font-medium text-muted-foreground">נושא:</label>
+                  <Input
+                    value={composeData.subject}
+                    onChange={(e) => setComposeData(prev => ({ ...prev, subject: e.target.value }))}
+                    placeholder="נושא המייל..."
+                    className="mt-1"
+                  />
+                </div>
+                
+                <div className="flex-1 flex flex-col">
+                  <label className="text-sm font-medium text-muted-foreground">תוכן:</label>
+                  <Textarea
+                    value={composeData.body}
+                    onChange={(e) => setComposeData(prev => ({ ...prev, body: e.target.value }))}
+                    placeholder="כתוב את המייל שלך כאן..."
+                    className="flex-1 min-h-[300px] mt-1 resize-none"
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Footer */}
+            <div className="p-4 border-t bg-muted/30 flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Button 
+                  onClick={() => {
+                    // Here you would typically send the email
+                    console.log('Sending email:', composeData);
+                    setIsComposeOpen(false);
+                    setComposeData({ to: '', subject: '', body: '' });
+                  }}
+                  className="flex items-center gap-2"
+                >
+                  <Send className="h-4 w-4" />
+                  שלח
+                </Button>
+                <Button 
+                  variant="outline"
+                  onClick={() => {
+                    setIsComposeOpen(false);
+                    setComposeData({ to: '', subject: '', body: '' });
+                  }}
+                >
+                  ביטול
+                </Button>
+              </div>
+              
+              <div className="flex items-center gap-2">
+                <Button variant="ghost" size="sm">
+                  <Paperclip className="h-4 w-4" />
+                  צרף קובץ
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
