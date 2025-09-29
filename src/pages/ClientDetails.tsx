@@ -39,7 +39,9 @@ import {
   Send,
   X,
   Minimize2,
-  Copy
+  Copy,
+  Pencil,
+  Save
 } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -233,6 +235,8 @@ export default function ClientDetails() {
     subject: '',
     body: ''
   });
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedClient, setEditedClient] = useState(mockClientData[Number(id)] || {});
   
   const client = mockClientData[Number(id)];
   
@@ -294,6 +298,17 @@ export default function ClientDetails() {
     }
   };
 
+  const handleSave = () => {
+    // כאן יהיה קוד לשמירת השינויים ב-API
+    console.log('Saving client data:', editedClient);
+    setIsEditing(false);
+  };
+
+  const handleEdit = () => {
+    setEditedClient(client);
+    setIsEditing(true);
+  };
+
   return (
     <div className="container mx-auto p-6 space-y-6 animate-fade-in" dir="rtl">
       {/* Header */}
@@ -329,10 +344,24 @@ export default function ClientDetails() {
             </div>
           </div>
         </div>
-        <Button variant="hero">
-          <Settings className="h-4 w-4 mr-2" />
-          עריכת תיק
-        </Button>
+        <div className="flex gap-2">
+          {isEditing ? (
+            <>
+              <Button variant="outline" onClick={() => setIsEditing(false)}>
+                ביטול
+              </Button>
+              <Button onClick={handleSave}>
+                <Save className="h-4 w-4 mr-2" />
+                שמור
+              </Button>
+            </>
+          ) : (
+            <Button variant="hero" onClick={handleEdit}>
+              <Pencil className="h-4 w-4 mr-2" />
+              עריכת תיק
+            </Button>
+          )}
+        </div>
       </div>
 
       {/* Tabs */}
@@ -379,86 +408,150 @@ export default function ClientDetails() {
                 <div className="space-y-4">
                   <div>
                     <label className="text-sm font-medium text-muted-foreground">שם העסק</label>
-                    <div className="flex items-center gap-2">
-                      <p className="text-lg font-medium">{client.name}</p>
-                      <button
-                        onClick={() => copyToClipboard(client.name, 'שם העסק')}
-                        className="text-muted-foreground hover:text-foreground transition-colors"
-                        title="העתק שם העסק"
-                      >
-                        <Copy className="h-4 w-4" />
-                      </button>
-                    </div>
+                    {isEditing ? (
+                      <Input 
+                        value={editedClient.name}
+                        onChange={(e) => setEditedClient({...editedClient, name: e.target.value})}
+                        className="text-lg font-medium"
+                      />
+                    ) : (
+                      <div className="flex items-center gap-2">
+                        <p className="text-lg font-medium">{client.name}</p>
+                        <button
+                          onClick={() => copyToClipboard(client.name, 'שם העסק')}
+                          className="text-muted-foreground hover:text-foreground transition-colors"
+                          title="העתק שם העסק"
+                        >
+                          <Copy className="h-4 w-4" />
+                        </button>
+                      </div>
+                    )}
                   </div>
                   <div>
                     <label className="text-sm font-medium text-muted-foreground">מספר עוסק</label>
-                    <div className="flex items-center gap-2">
-                      <p className="text-lg">{client.businessNumber}</p>
-                      <button
-                        onClick={() => copyToClipboard(client.businessNumber, 'מספר עוסק')}
-                        className="text-muted-foreground hover:text-foreground transition-colors"
-                        title="העתק מספר עוסק"
-                      >
-                        <Copy className="h-4 w-4" />
-                      </button>
-                    </div>
+                    {isEditing ? (
+                      <Input 
+                        value={editedClient.businessNumber}
+                        onChange={(e) => setEditedClient({...editedClient, businessNumber: e.target.value})}
+                        className="text-lg"
+                      />
+                    ) : (
+                      <div className="flex items-center gap-2">
+                        <p className="text-lg">{client.businessNumber}</p>
+                        <button
+                          onClick={() => copyToClipboard(client.businessNumber, 'מספר עוסק')}
+                          className="text-muted-foreground hover:text-foreground transition-colors"
+                          title="העתק מספר עוסק"
+                        >
+                          <Copy className="h-4 w-4" />
+                        </button>
+                      </div>
+                    )}
                   </div>
                   <div>
                     <label className="text-sm font-medium text-muted-foreground">סוג עסק</label>
-                    <div className="flex items-center gap-2">
-                      <Building className="h-4 w-4 text-muted-foreground flex-shrink-0" />
-                      <Badge variant="outline" className="text-lg px-3 py-1 font-medium">
-                        {client.businessType}
-                      </Badge>
-                    </div>
+                    {isEditing ? (
+                      <Input 
+                        value={editedClient.businessType}
+                        onChange={(e) => setEditedClient({...editedClient, businessType: e.target.value})}
+                        className="text-lg"
+                      />
+                    ) : (
+                      <div className="flex items-center gap-2">
+                        <Building className="h-4 w-4 text-muted-foreground flex-shrink-0" />
+                        <Badge variant="outline" className="text-lg px-3 py-1 font-medium">
+                          {client.businessType}
+                        </Badge>
+                      </div>
+                    )}
                   </div>
                   <div>
                     <label className="text-sm font-medium text-muted-foreground">בעלי העסק</label>
-                    <p className="text-lg">{client.owners.join(', ')}</p>
+                    {isEditing ? (
+                      <Input 
+                        value={editedClient.owners?.join(', ')}
+                        onChange={(e) => setEditedClient({...editedClient, owners: e.target.value.split(',').map(o => o.trim())})}
+                        className="text-lg"
+                      />
+                    ) : (
+                      <p className="text-lg">{client.owners.join(', ')}</p>
+                    )}
                   </div>
                   <div>
                     <label className="text-sm font-medium text-muted-foreground">תחום פעילות</label>
-                    <div className="flex items-center gap-2">
-                      <Briefcase className="h-4 w-4 text-muted-foreground flex-shrink-0" />
-                      <p className="text-lg font-medium bg-primary/10 px-3 py-1 rounded-md">{client.field}</p>
-                    </div>
+                    {isEditing ? (
+                      <Input 
+                        value={editedClient.field}
+                        onChange={(e) => setEditedClient({...editedClient, field: e.target.value})}
+                        className="text-lg"
+                      />
+                    ) : (
+                      <div className="flex items-center gap-2">
+                        <Briefcase className="h-4 w-4 text-muted-foreground flex-shrink-0" />
+                        <p className="text-lg font-medium bg-primary/10 px-3 py-1 rounded-md">{client.field}</p>
+                      </div>
+                    )}
                   </div>
                 </div>
                 <div className="space-y-4">
                   <div>
                     <label className="text-sm font-medium text-muted-foreground">כתובת</label>
-                    <div className="flex items-start gap-2">
-                      <MapPin className="h-4 w-4 mt-1 text-muted-foreground flex-shrink-0" />
-                      <p className="text-lg">{client.address}</p>
-                    </div>
+                    {isEditing ? (
+                      <Input 
+                        value={editedClient.address}
+                        onChange={(e) => setEditedClient({...editedClient, address: e.target.value})}
+                        className="text-lg"
+                      />
+                    ) : (
+                      <div className="flex items-start gap-2">
+                        <MapPin className="h-4 w-4 mt-1 text-muted-foreground flex-shrink-0" />
+                        <p className="text-lg">{client.address}</p>
+                      </div>
+                    )}
                   </div>
                   <div>
                     <label className="text-sm font-medium text-muted-foreground">טלפון</label>
-                    <div className="flex items-center gap-2">
-                      <Phone className="h-4 w-4 text-muted-foreground flex-shrink-0" />
-                      <p className="text-lg">{client.phone}</p>
-                      <button
-                        onClick={() => copyToClipboard(client.phone, 'טלפון')}
-                        className="text-muted-foreground hover:text-foreground transition-colors"
-                        title="העתק טלפון"
-                      >
-                        <Copy className="h-4 w-4" />
-                      </button>
-                    </div>
+                    {isEditing ? (
+                      <Input 
+                        value={editedClient.phone}
+                        onChange={(e) => setEditedClient({...editedClient, phone: e.target.value})}
+                        className="text-lg"
+                      />
+                    ) : (
+                      <div className="flex items-center gap-2">
+                        <Phone className="h-4 w-4 text-muted-foreground flex-shrink-0" />
+                        <p className="text-lg">{client.phone}</p>
+                        <button
+                          onClick={() => copyToClipboard(client.phone, 'טלפון')}
+                          className="text-muted-foreground hover:text-foreground transition-colors"
+                          title="העתק טלפון"
+                        >
+                          <Copy className="h-4 w-4" />
+                        </button>
+                      </div>
+                    )}
                   </div>
                   <div>
                     <label className="text-sm font-medium text-muted-foreground">דוא"ל</label>
-                    <div className="flex items-center gap-2">
-                      <Mail className="h-4 w-4 text-muted-foreground flex-shrink-0" />
-                      <p className="text-lg">{client.email}</p>
-                      <button
-                        onClick={() => copyToClipboard(client.email, 'דוא"ל')}
-                        className="text-muted-foreground hover:text-foreground transition-colors"
-                        title="העתק דוא&quot;ל"
-                      >
-                        <Copy className="h-4 w-4" />
-                      </button>
-                    </div>
+                    {isEditing ? (
+                      <Input 
+                        value={editedClient.email}
+                        onChange={(e) => setEditedClient({...editedClient, email: e.target.value})}
+                        className="text-lg"
+                      />
+                    ) : (
+                      <div className="flex items-center gap-2">
+                        <Mail className="h-4 w-4 text-muted-foreground flex-shrink-0" />
+                        <p className="text-lg">{client.email}</p>
+                        <button
+                          onClick={() => copyToClipboard(client.email, 'דוא"ל')}
+                          className="text-muted-foreground hover:text-foreground transition-colors"
+                          title="העתק דוא&quot;ל"
+                        >
+                          <Copy className="h-4 w-4" />
+                        </button>
+                      </div>
+                    )}
                   </div>
                   <div>
                     <label className="text-sm font-medium text-muted-foreground">סטטוס</label>
@@ -487,7 +580,16 @@ export default function ClientDetails() {
               {client.notes && (
                 <div>
                   <label className="text-sm font-medium text-muted-foreground">הערות</label>
-                  <p className="text-lg bg-muted/50 p-3 rounded-md">{client.notes}</p>
+                  {isEditing ? (
+                    <Textarea 
+                      value={editedClient.notes}
+                      onChange={(e) => setEditedClient({...editedClient, notes: e.target.value})}
+                      className="text-lg bg-muted/50"
+                      rows={3}
+                    />
+                  ) : (
+                    <p className="text-lg bg-muted/50 p-3 rounded-md">{client.notes}</p>
+                  )}
                 </div>
               )}
             </CardContent>
