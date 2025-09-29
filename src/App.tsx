@@ -9,6 +9,7 @@ import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import Clients from "./pages/Clients";
 import ClientDetails from "./pages/ClientDetails";
+import Leads from "./pages/Leads";
 import Tasks from "./pages/Tasks";
 import NotFound from "./pages/NotFound";
 
@@ -41,6 +42,13 @@ const App = () => (
             <RequireAuth>
               <Layout>
                 <ClientDetails />
+              </Layout>
+            </RequireAuth>
+          } />
+          <Route path="/leads" element={
+            <RequireAuth>
+              <Layout>
+                <Leads />
               </Layout>
             </RequireAuth>
           } />

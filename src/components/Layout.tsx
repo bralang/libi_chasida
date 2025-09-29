@@ -18,7 +18,8 @@ import {
   Settings,
   LogOut,
   Bell,
-  Search
+  Search,
+  UserPlus
 } from 'lucide-react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { cn } from '@/lib/utils';
@@ -30,6 +31,7 @@ interface LayoutProps {
 const navigationItems = [
   { name: 'דשבורד', href: '/dashboard', icon: Home },
   { name: 'לקוחות', href: '/clients', icon: Users },
+  { name: 'לידים', href: '/leads', icon: UserPlus },
   { name: 'משימות', href: '/tasks', icon: CheckSquare },
   { name: 'דוחות', href: '/reports', icon: BarChart3 },
   { name: 'הגדרות', href: '/settings', icon: Settings },
